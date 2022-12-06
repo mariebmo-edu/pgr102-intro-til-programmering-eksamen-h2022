@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oppgave 2 - Miaow Miaow møter fisken</title>
+    <link rel="stylesheet" href="css/oppgave2.css" type="text/css">
+</head>
+<body>
+    
+    <div id="menu-container">
+        <input id="move-left-btn" type="button" value="Venstre">
+        <input id="move-up-btn" type="button" value="Opp">
+        <input id="move-right-btn" type="button" value="Høyre">
+        <input id="move-down-btn" type="button" value="Ned">
+    </div>
+    <div id="game-container">
+        <p>Antall steg: <span id="number-of-steps-span">0</span></p>
+        <img id="miaow-miaow" src="images/miaow-miaow.png">
+        <img id="the-mighty-fish" src="images/fish.png">
+        <h2 id="fish-room-title">Fiskens rom</h2>
+        <div id="line-div"></div>
+    </div>
+    <div id="dialogue-output-div">
+        <p>Miaow Miaow: <span id="miaow-miaow-says">...</span></p>
+        <p>Fisken: <span id="fish-says">...</span></p>
+    </div>
+
+    <script>
+
+        var upBtn = document.getElementById("move-up-btn");
+        var downBtn = document.getElementById("move-down-btn");
+        var leftBtn = document.getElementById("move-left-btn");
+        var rightBtn = document.getElementById("move-right-btn");
+        var numberOfStepsSpan = document.getElementById("number-of-steps-span");
+        var miaowMiaow = document.getElementById("miaow-miaow");
+        var theMightyFish = document.getElementById("the-mighty-fish");
+        var miaoSays = document.getElementById("miaow-miaow-says");
+        var fishSays = document.getElementById("fish-says");
+
+        var numberOfSteps = 0;
+        var miaowLines = ["miaow", "mjau", "kssss", "hissss", "nam"];
+        var fishLines = ["blub", "blubb", "blubbb", "blubbbb", "blubbbbb"];
+
+        upBtn.onclick =()=> move("up");
+        downBtn.onclick =()=> move("down");
+        leftBtn.onclick =()=> move("left");
+        rightBtn.onclick =()=> move("right");
+        theMightyFish.onclick = talk;
+
+        function move(direction){
+            switch(direction.toLowerCase()){
+                case "up": miaowMiaow.style.top = (miaowMiaow.offsetTop - 50) + "px"; break;
+                case "down": miaowMiaow.style.top = (miaowMiaow.offsetTop + 50) + "px"; break;
+                case "left": if(parseInt(miaowMiaow.style.left)-50 >= 0){miaowMiaow.style.left = (miaowMiaow.offsetLeft - 50) + "px";} 
+                                else {miaowMiaow.style.left = "0px"} 
+                                break;
+                case "right": miaowMiaow.style.left = (miaowMiaow.offsetLeft + 50) + "px"; break;
+            }
+
+            numberOfStepsSpan.innerHTML = ++numberOfSteps;
+
+            if(parseInt(miaowMiaow.style.left) > 700){
+                miaowMiaow.style.top = 33.767 + "px";
+                miaowMiaow.style.left = 0 + "px";
+
+                fishSays.innerHTML = "too close";
+            }
+        }
+
+        function talk(){
+            if(parseInt(miaowMiaow.style.left) > 600){
+                miaoSays.innerHTML = miaowLines[Math.floor(Math.random() * miaowLines.length)];
+                fishSays.innerHTML = fishLines[Math.floor(Math.random() * fishLines.length)];
+            }
+            else{
+                miaoSays.innerHTML = "jeg kan ikke høre deg";
+                fishSays.innerHTML = "...";
+            }
+        }
+
+    </script>
+    
+</body>
+</html>
